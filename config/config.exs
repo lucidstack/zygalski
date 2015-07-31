@@ -9,6 +9,7 @@ use Mix.Config
 # party users, it should be done in your mix.exs file.
 
 config :zygalski,
+  port: 6553,
   keys_path: "./keys/",
   key_type: "rsa"
 
