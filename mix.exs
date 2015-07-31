@@ -14,7 +14,10 @@ defmodule Zygalski.Mixfile do
   #
   # Type `mix help compile.app` for more information
   def application do
-    [applications: [:logger, :plug, :cowboy]]
+    [
+      applications: [:logger, :plug, :cowboy],
+      mod:          {Zygalski, []}
+    ]
   end
 
   # Dependencies can be Hex packages:
