@@ -3,13 +3,13 @@ defmodule Zygalski.Router do
   use Plug.Router
 
   plug Plug.Logger
+  plug Plug.Parsers, parsers: [:urlencoded]
   plug :match
   plug :dispatch
 
   post "/new-key" do
-    query = Plug.Conn.Query.decode(conn.query_string)
-    channel = query["channel_name"]
-    passphrase = query["text"]
+    channel = conn.params["channel_name"]
+    passphrase = conn.params["text"]
     SshUtil.create_key(channel, passphrase)
 
     conn
