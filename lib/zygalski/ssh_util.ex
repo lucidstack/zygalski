@@ -1,16 +1,16 @@
 defmodule Zygalski.SshUtil do
-  def create_key(key_name, passphrase) do
-    delete_existing_key(key_name)
-    call_ssh_keygen(key_name, passphrase)
+  def create_key(key_name, passphrase, system \\ System, file \\ File) do
+    delete_existing_key(key_name, file)
+    call_ssh_keygen(key_name, passphrase, system)
   end
 
-  defp delete_existing_key(key_name) do
-    File.rm(key_path(key_name))
-    File.rm(key_path(key_name <> ".pub"))
+  defp delete_existing_key(key_name, file) do
+    file.rm(key_path(key_name))
+    file.rm(key_path(key_name <> ".pub"))
   end
 
-  defp call_ssh_keygen(key_name, passphrase),
-  do: System.cmd("ssh-keygen", ssh_args(key_name, passphrase))
+  defp call_ssh_keygen(key_name, passphrase, system),
+  do: system.cmd("ssh-keygen", ssh_args(key_name, passphrase))
 
   defp ssh_args(key_name, passphrase),
   do: ["-t", key_type, "-N", passphrase, "-f", key_path(key_name)]
