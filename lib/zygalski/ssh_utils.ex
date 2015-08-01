@@ -4,6 +4,9 @@ defmodule Zygalski.SshUtils do
     call_ssh_keygen(key_name, passphrase, system)
   end
 
+  def key_path(key_name),
+  do: Path.join([Application.get_env(:zygalski, :keys_path), key_name])
+
   defp delete_existing_key(key_name, file) do
     file.rm(key_path(key_name))
     file.rm(key_path(key_name <> ".pub"))
@@ -17,7 +20,4 @@ defmodule Zygalski.SshUtils do
 
   defp key_type,
   do: Application.get_env(:zygalski, :key_type)
-
-  defp key_path(key_name),
-  do: Path.join([Application.get_env(:zygalski, :keys_path), key_name])
 end

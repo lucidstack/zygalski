@@ -2,12 +2,14 @@ defmodule Zygalski.Mixfile do
   use Mix.Project
 
   def project do
-    [app: :zygalski,
-     version: "0.0.1",
-     elixir: "~> 1.0",
-     build_embedded: Mix.env == :prod,
-     start_permanent: Mix.env == :prod,
-     deps: deps]
+    [
+      app: :zygalski,
+      version: "0.0.1",
+      elixir: "~> 1.0",
+      build_embedded: Mix.env == :prod,
+      start_permanent: Mix.env == :prod,
+      deps: deps
+    ]
   end
 
   # Configuration for the OTP application
@@ -34,7 +36,8 @@ defmodule Zygalski.Mixfile do
       {:cowboy, "~> 1.0.0"},
       {:plug, "~> 0.13"},
       {:apex, "~> 0.3.2"},
-      {:meck, "~> 0.8.3"}
+      {:meck, "~> 0.8.3"},
+      {:exrm, "~> 0.18.6"}
     ]
   end
 end

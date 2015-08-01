@@ -4,8 +4,6 @@ defmodule Zygalski do
 
   def start(_type, _args) do
     Plug.Adapters.Cowboy.http Router, [], port: port
-    IO.puts("Zygalski Started!")
-
     {:ok, self()}
   end
 
