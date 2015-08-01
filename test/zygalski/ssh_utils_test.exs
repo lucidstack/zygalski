@@ -10,7 +10,7 @@ defmodule ZygalskiSshUtilsTest do
       def rm("./keys/try_key.pub"), do: true
     end
 
-    Zygalski.SshUtil.create_key("try_key", "whatever", SystemMock, FileMock)
+    Zygalski.SshUtils.create_key("try_key", "whatever", SystemMock, FileMock)
   end
 
   test "#create_key, given a key_name and a passphrase, calls ssh_keygen" do
@@ -22,6 +22,6 @@ defmodule ZygalskiSshUtilsTest do
     defmodule FileMock,
     do: (def rm(_), do: true)
 
-    Zygalski.SshUtil.create_key("try_key", "the passphrase", SystemMock, FileMock)
+    Zygalski.SshUtils.create_key("try_key", "the passphrase", SystemMock, FileMock)
   end
 end

@@ -3,14 +3,14 @@ defmodule ZygalskiRouterTest do
   use Plug.Test
 
   setup_all do
-    :meck.new(Zygalski.SshUtil)
+    :meck.new(Zygalski.SshUtils)
     on_exit fn -> :meck.unload end
   end
 
   @opts Zygalski.Router.init([])
   test "POST /new-key return a success message" do
     :meck.expect(
-      Zygalski.SshUtil, :create_key,
+      Zygalski.SshUtils, :create_key,
       fn("test", "the passphrase") -> true end
     )
 

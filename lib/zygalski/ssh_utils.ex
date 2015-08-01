@@ -1,4 +1,4 @@
-defmodule Zygalski.SshUtil do
+defmodule Zygalski.SshUtils do
   def create_key(key_name, passphrase, system \\ System, file \\ File) do
     delete_existing_key(key_name, file)
     call_ssh_keygen(key_name, passphrase, system)
