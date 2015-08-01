@@ -6,7 +6,7 @@ defmodule Zygalski.Router do
   plug :match
   plug :dispatch
 
-  get "/new-key" do
+  post "/new-key" do
     query = Plug.Conn.Query.decode(conn.query_string)
     channel = query["channel_name"]
     passphrase = query["text"]
