@@ -1,4 +1,4 @@
-Zygalski - A Slack cryptographic utlity for extremely secret agents
+Zygalski - A Slack cryptographic utility for extremely secret agents
 ========
 
 1. Make sure you have `ssh-keygen` in your `PATH`
