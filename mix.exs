@@ -33,7 +33,8 @@ defmodule Zygalski.Mixfile do
     [
       {:cowboy, "~> 1.0.0"},
       {:plug, "~> 0.13"},
-      {:apex, "~>0.3.2"}
+      {:apex, "~> 0.3.2"},
+      {:meck, "~> 0.8.3"}
     ]
   end
 end
