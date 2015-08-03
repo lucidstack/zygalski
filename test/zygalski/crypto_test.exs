@@ -1,5 +1,5 @@
 defmodule ZygalskiCryptoTest do
-  use ExUnit.Case, async: true
+  use ExUnit.Case
   import Zygalski.Crypto
 
   setup_all do

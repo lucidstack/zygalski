@@ -1,7 +1,7 @@
 defmodule Zygalski.SslUtils do
-  def create_pair(key_name, passphrase, system \\ System) do
-    system.cmd("openssl", private_key_args(key_name, passphrase))
-    system.cmd("openssl", public_key_args(key_name, passphrase))
+  def create_pair(key_name, passphrase) do
+    System.cmd("openssl", private_key_args(key_name, passphrase))
+    System.cmd("openssl", public_key_args(key_name, passphrase))
   end
 
   defp private_key_args(key_name, passphrase),
