@@ -6,7 +6,7 @@ defmodule ZygalskiSslUtilsTest do
       @private_key_args [
         "genrsa",
         "-des3", "-passout", "pass:the passphrase",
-        "-out", "./keys/try_key.pem", 2048
+        "-out", "./keys/try_key.pem", "2048"
       ]
       @public_key_args [
         "rsa",

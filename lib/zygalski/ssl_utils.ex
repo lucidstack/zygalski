@@ -9,7 +9,7 @@ defmodule Zygalski.SslUtils do
     "genrsa",
     "-#{key_type}", "-passout", "pass:#{passphrase}",
     "-out", key_path(key_name, :private),
-    2048
+    "2048"
   ]
 
   defp public_key_args(key_name, passphrase),
