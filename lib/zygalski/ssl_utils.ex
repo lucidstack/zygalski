@@ -4,17 +4,20 @@ defmodule Zygalski.SslUtils do
     #system.cmd("openssl", public_key_args(key_name, passphrase))
   end
 
-  def key_path(key_name),
-  do: Path.join([Application.get_env(:zygalski, :keys_path), key_name])
-
   defp private_key_args(key_name, passphrase),
   do: [
     "genrsa",
     "-#{key_type}", "-passout", "pass:#{passphrase}",
-    "-out", "./keys/#{key_name}.pem",
+    "-out", key_path(key_name, :private),
     2048
   ]
 
   defp key_type,
   do: Application.get_env(:zygalski, :key_type)
+
+  def key_path(key_name, :public),
+  do: Path.join([Application.get_env(:zygalski, :keys_path), key_name <> ".pub"])
+
+  def key_path(key_name, :private),
+  do: Path.join([Application.get_env(:zygalski, :keys_path), key_name <> ".pem"])
 end

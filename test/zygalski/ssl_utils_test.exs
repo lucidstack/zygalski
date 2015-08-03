@@ -1,10 +1,20 @@
 defmodule ZygalskiSslUtilsTest do
   use ExUnit.Case
 
-  test "#create_pair, given a key_name and a passphrase, calls ssh_keygen" do
+  test "#create_pair, given a key_name and a passphrase, creates the private key" do
     defmodule SystemMock do
-      @expected_array ["genrsa", "-des3", "-passout", "pass:the passphrase", "-out", "./keys/try_key.pem", 2048]
-      def cmd("openssl", @expected_array), do: true
+      @private_key_args [
+        "genrsa",
+        "-des3", "-passout", "pass:the passphrase",
+        "-out", "./keys/try_key.pem", 2048
+      ]
+      @public_key_args [
+        "rsa",
+        "-in", "./keys/try_key.pem", "-passin", "pass:the passphrase",
+        "-pubout", "-out", "./keys/try_key.pub"
+      ]
+      def cmd("openssl", @private_key_args), do: true
+      def cmd("openssl", @public_key_args), do: true
     end
 
     Zygalski.SslUtils.create_pair("try_key", "the passphrase", SystemMock)

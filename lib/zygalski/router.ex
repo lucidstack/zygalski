@@ -1,5 +1,6 @@
 defmodule Zygalski.Router do
-  alias Zygalski.SshUtils
+  alias Zygalski.SslUtils
+  alias Zygalski.Crypto
   use Plug.Router
 
   plug Plug.Logger
@@ -10,7 +11,7 @@ defmodule Zygalski.Router do
   post "/new-key" do
     channel = conn.params["channel_name"]
     passphrase = conn.params["text"]
-    SshUtils.create_key(channel, passphrase)
+    SslUtils.create_pair(channel, passphrase)
 
     conn
     |> put_resp_content_type("text/plain")

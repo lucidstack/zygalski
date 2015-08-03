@@ -11,7 +11,7 @@ use Mix.Config
 config :zygalski,
   port: 6553,
   keys_path: "./keys/",
-  key_type: "rsa"
+  key_type: "des3"
 
 # Sample configuration:
 #
