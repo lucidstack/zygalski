@@ -6,6 +6,7 @@ defmodule ZygalskiCryptoTest do
     :meck.new(File)
     :meck.new(:public_key)
     :meck.new(Zygalski.Key)
+    :meck.new(Base)
     on_exit fn -> :meck.unload end
   end
 
@@ -13,14 +14,16 @@ defmodule ZygalskiCryptoTest do
     :meck.expect(File,         :read,           fn(_) -> {:ok, "thekeycontent"} end)
     :meck.expect(:public_key,  :encrypt_public, fn(_,_) -> "3ncrypt3d m3ss4g3" end)
     :meck.expect(Zygalski.Key, :decode,         fn(_) -> true end)
+    :meck.expect(Base,         :encode64,       fn(_) -> "encoded" end)
 
-    assert encrypt("the message", "the_key") == "M25jcnlwdDNkIG0zc3M0ZzM="
+    assert encrypt("the message", "the_key") == "encoded"
   end
 
   test "#decrypt, given a message, a passphrase, and a key_name, returns the decrypted message" do
     :meck.expect(File,         :read,                 fn(_) -> {:ok, "thekeycontent"} end)
     :meck.expect(:public_key,  :decrypt_private,      fn(_,_) -> "decrypted message" end)
     :meck.expect(Zygalski.Key, :decode,               fn(_,_) -> true end)
+    :meck.expect(Base,         :decode64,             fn(_) -> {:ok, "blahblah"} end)
 
     assert decrypt("3ncrypt3d m3ss4g3", "the_key", "password") == "decrypted message"
   end
