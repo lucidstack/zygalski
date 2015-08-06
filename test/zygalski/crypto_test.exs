@@ -1,6 +1,5 @@
 defmodule ZygalskiCryptoTest do
   use ExUnit.Case
-  import Zygalski.Crypto
 
   setup_all do
     :meck.new(File)
@@ -13,18 +12,18 @@ defmodule ZygalskiCryptoTest do
   test "#encrypt, given a message and a key_name, returns the encrypted message" do
     :meck.expect(File,         :read,           fn(_) -> {:ok, "thekeycontent"} end)
     :meck.expect(:public_key,  :encrypt_public, fn(_,_) -> "3ncrypt3d m3ss4g3" end)
-    :meck.expect(Zygalski.Key, :decode,         fn(_) -> true end)
+    :meck.expect(Zygalski.Key, :decode,         fn(_) -> {:ok, "key"} end)
     :meck.expect(Base,         :encode64,       fn(_) -> "encoded" end)
 
-    assert encrypt("the message", "the_key") == "encoded"
+    assert Zygalski.Crypto.encrypt("the message", "the_key") == "encoded"
   end
 
   test "#decrypt, given a message, a passphrase, and a key_name, returns the decrypted message" do
-    :meck.expect(File,         :read,                 fn(_) -> {:ok, "thekeycontent"} end)
-    :meck.expect(:public_key,  :decrypt_private,      fn(_,_) -> "decrypted message" end)
-    :meck.expect(Zygalski.Key, :decode,               fn(_,_) -> true end)
-    :meck.expect(Base,         :decode64,             fn(_) -> {:ok, "blahblah"} end)
+    :meck.expect(File,         :read,            fn(_) -> {:ok, "thekeycontent"} end)
+    :meck.expect(:public_key,  :decrypt_private, fn(_,_) -> "decrypted message" end)
+    :meck.expect(Zygalski.Key, :decode,          fn(_, "password") -> {:ok, "key"} end)
+    :meck.expect(Base,         :decode64,        fn(_) -> {:ok, "blahblah"} end)
 
-    assert decrypt("3ncrypt3d m3ss4g3", "the_key", "password") == "decrypted message"
+    assert Zygalski.Crypto.decrypt("3ncrypt3d m3ss4g3", "password", "the_key") == "decrypted message"
   end
 end

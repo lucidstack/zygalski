@@ -1,5 +1,5 @@
 defmodule ZygalskiRouterTest do
-  use ExUnit.Case, async: true
+  use ExUnit.Case
   use Plug.Test
 
   setup_all do
@@ -38,7 +38,7 @@ defmodule ZygalskiRouterTest do
 
   test "POST /decrypt return the decrypted message" do
     :meck.expect(Zygalski.Crypto, :decrypt, fn("3ncrypt3d", "the passphrase", "test") ->
-      "decrypted"
+      {:ok, "decrypted"}
     end)
 
     conn = conn(:post, "/decrypt", "channel_name=test&text=the passphrase 3ncrypt3d")
@@ -48,5 +48,19 @@ defmodule ZygalskiRouterTest do
     assert conn.state == :sent
     assert conn.status == 200
     assert conn.resp_body == "decrypted"
+  end
+
+  test "POST /decrypt return an error message when the password is wrong" do
+    :meck.expect(Zygalski.Crypto, :decrypt, fn("3ncrypt3d", "the passphrase", "test") ->
+      {:error, :wrong_password}
+    end)
+
+    conn = conn(:post, "/decrypt", "channel_name=test&text=the passphrase 3ncrypt3d")
+      |> put_req_header("content-type", "application/x-www-form-urlencoded")
+      |> Zygalski.Router.call(@opts)
+
+    assert conn.state == :sent
+    assert conn.status == 401
+    assert conn.resp_body == "Couldn't decrypt the message, wrong password!"
   end
 end

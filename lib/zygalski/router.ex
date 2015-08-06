@@ -32,11 +32,13 @@ defmodule Zygalski.Router do
     key_name = conn.params["channel_name"]
     {passphrase, message} = conn.params["text"] |> extract_decrypt_text
 
-    original_message = Crypto.decrypt(message, passphrase, key_name)
+    response = message
+      |> Crypto.decrypt(passphrase, key_name)
+      |> response_from_decryption
 
     conn
     |> put_resp_content_type("text/plain")
-    |> send_resp(200, original_message)
+    |> send_resp(response.status, response.text)
   end
 
   match _ do
@@ -47,4 +49,10 @@ defmodule Zygalski.Router do
     {passphrase, [message]} = text |> String.split |> Enum.split(-1)
     {passphrase |> Enum.join(" "), message}
   end
+
+  defp response_from_decryption({:ok, original_message}),
+  do: %{status: 200, text: original_message}
+
+  defp response_from_decryption({:error, :wrong_password}),
+  do: %{status: 401, text: "Couldn't decrypt the message, wrong password!"}
 end
