@@ -3,7 +3,9 @@ defmodule Zygalski.Crypto do
 
   def encrypt(message, key_name) do
     {:ok, public_key} = key(key_name, :public)
-    message |> :public_key.encrypt_public(public_key) |> Base.encode64
+    encrypted_message = message |> :public_key.encrypt_public(public_key) |> Base.encode64
+
+    {:ok, encrypted_message}
   end
 
   def decrypt(cipher_text, password, key_name) do
@@ -11,8 +13,10 @@ defmodule Zygalski.Crypto do
     decrypt_with_key(private_key, cipher_text)
   end
 
-  defp decrypt_with_key({:ok, key}, cipher_text),
-  do: cipher_text |> decode_cipher_text |> :public_key.decrypt_private(key)
+  defp decrypt_with_key({:ok, key}, cipher_text) do
+    message = cipher_text |> decode_cipher_text |> :public_key.decrypt_private(key)
+    {:ok, message}
+  end
 
   defp decrypt_with_key({:error, _}, cipher_text),
   do: {:error, :wrong_password}

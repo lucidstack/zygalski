@@ -25,7 +25,7 @@ defmodule ZygalskiRouterTest do
   end
 
   test "POST /encrypt return the encrypted message" do
-    :meck.expect(Zygalski.Crypto, :encrypt, fn("the passphrase", "test") -> "3ncrypt3d" end)
+    :meck.expect(Zygalski.Crypto, :encrypt, fn("the passphrase", "test") -> {:ok, "3ncrypt3d"} end)
 
     conn = conn(:post, "/encrypt", "channel_name=test&text=the passphrase")
       |> put_req_header("content-type", "application/x-www-form-urlencoded")

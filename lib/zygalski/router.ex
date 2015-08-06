@@ -21,7 +21,7 @@ defmodule Zygalski.Router do
   post "/encrypt" do
     key_name = conn.params["channel_name"]
     message = conn.params["text"]
-    encrypted_message = Crypto.encrypt(message, key_name)
+    {:ok, encrypted_message} = Crypto.encrypt(message, key_name)
 
     conn
     |> put_resp_content_type("text/plain")
