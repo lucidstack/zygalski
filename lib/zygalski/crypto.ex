@@ -2,7 +2,7 @@ defmodule Zygalski.Crypto do
   alias Zygalski.SslUtils
 
   def encrypt(message, key_name) do
-    public_key = key(key_name, :public)
+    {:ok, public_key} = key(key_name, :public)
     message |> :public_key.encrypt_public(public_key) |> Base.encode64
   end
 

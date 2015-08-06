@@ -11,8 +11,8 @@ defmodule ZygalskiCryptoTest do
 
   test "#encrypt, given a message and a key_name, returns the encrypted message" do
     :meck.expect(File,         :read,           fn(_) -> {:ok, "thekeycontent"} end)
-    :meck.expect(:public_key,  :encrypt_public, fn(_,_) -> "3ncrypt3d m3ss4g3" end)
     :meck.expect(Zygalski.Key, :decode,         fn(_) -> {:ok, "key"} end)
+    :meck.expect(:public_key,  :encrypt_public, fn("the message","key") -> "3ncrypt3d m3ss4g3" end)
     :meck.expect(Base,         :encode64,       fn(_) -> "encoded" end)
 
     assert Zygalski.Crypto.encrypt("the message", "the_key") == "encoded"
