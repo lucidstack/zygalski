@@ -11,7 +11,7 @@ The server responds to three routes/slash commands:
 * `POST /decrypt`: decrypts and returns a given encrypted message, using the private key of the channel and the passphrase in the slash command text. The slash command should have a `/encrypt "[passphrase]" [message]` signature.
 
 ## Installation
-1. Make sure you have `ssh-keygen` in your `PATH`
+1. Make sure you have `openssl` in your `PATH`
 2. [Install Elixir](http://elixir-lang.org/install.html)
 3. In the project root, run `mix deps.get`
 
