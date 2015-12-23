@@ -3,7 +3,7 @@ Zygalski - A Slack cryptographic utility for extremely secret agents
 
 ## Warning: This is (at the moment) a toy project, made for fun and to talk about Mr Robot in our Slack channels. Avoid using this tool to plan your next revolution.
 
-Zygalski is a little server that replies to Slack slash commands for private/public key encription of messages.
+Zygalski is a little server that replies to Slack slash commands for private/public key encryption of messages.
 
 The server responds to three routes/slash commands:
 * `POST /new-key`: creates/overwrites a private/public key pair for the channel where the command is issued from. The slash command should have a `/new-key [passphrase]` signature.
